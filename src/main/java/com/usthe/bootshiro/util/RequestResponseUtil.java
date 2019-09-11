@@ -58,9 +58,15 @@ public class RequestResponseUtil {
             return (Map<String,String>)request.getAttribute(STR_BODY);
         } else {
             try {
-                Map<String,String > maps = JSON.parseObject(request.getInputStream(),Map.class);
-                dataMap.putAll(maps);
-                request.setAttribute(STR_BODY,dataMap);
+                JSONObject jsonObject = JSON.parseObject(request.getInputStream(),JSONObject.class);
+                for(Map.Entry<String, Object> entry : jsonObject.entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+                    dataMap.put(key,value.toString());
+                }                
+                //Map<String,String > maps = JSON.parseObject(request.getInputStream(),Map.class);       
+                //dataMap.putAll(maps);
+                //避免Error	The method entrySet() is undefined for the type Map___
             }catch (IOException e) {
                 e.printStackTrace();
             }
