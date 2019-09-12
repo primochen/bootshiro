@@ -82,6 +82,11 @@ public class ShiroFilterChainManager {
                 });
             }
         }
+		
+		//********jwt[role_admin,role_user,role_guest]
+    	filterChain.put("/**","jwt[role_XXX]");//想把未註冊的全部擋住  要放最後面 filter有順序
+    	//******** 
+		
         return filterChain;
     }
     /**
